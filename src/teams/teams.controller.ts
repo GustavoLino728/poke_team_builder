@@ -1,4 +1,7 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { TeamsService } from './teams.service';
+import { CreateTeamDTO } from './dto/create-team.dto';
+import { UpdateTeamDTO } from './dto/update-team.dto';
 
 export class PokemonTeam{
     id: string;
@@ -16,29 +19,17 @@ export class Team {
 
 @Controller('teams')
 export class TeamsController {
+    constructor(private readonly teamsService: TeamsService) {}
+
     @Get()
     findAll() {
-        return 'Esta rota retorna todos os times';
-    }
-
-    @Get(':id')
-    findOne(@Param() params: any): string{
-        return `Esse é o time ${params.id}`;
+        return this.teamsService.findAll();
     }
 
     @Post()
-    create(@Body() Team:Team){
-        return 'Time Criado';
-    }
-
-    @Put(':id')
-    update(@Param() params: any): string{
-        return `Time ${params.id} editado`;
-    }
-
-    @Delete(':id')
-    delete(@Param() params:any): string{
-        return `Time ${params.id} deletado`;
+    @HttpCode(HttpStatus.CREATED)
+    create(@Body() createTeamDto: CreateTeamDTO){
+        return this.teamsService.create(createTeamDto, 'adfadfs');
     }
 }
 
