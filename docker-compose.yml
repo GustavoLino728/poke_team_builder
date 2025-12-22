@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: poke_team_builder_postgres
+    environment:
+      POSTGRES_USER: poke_user
+      POSTGRES_PASSWORD: poke_pass
+      POSTGRES_DB: poke_team_builder
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
